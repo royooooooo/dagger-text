@@ -7,10 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.daggertest.MyApplication
 import com.example.daggertest.databinding.MainFragmentBinding
-import com.example.daggertest.di.ApplicationComponent
-import com.example.daggertest.di.Cat
-import com.example.daggertest.di.DaggerApplicationComponent
+import com.example.daggertest.model.repository.UserRemoteDataSource
 import javax.inject.Inject
 
 class MainFragment : Fragment() {
@@ -19,18 +18,23 @@ class MainFragment : Fragment() {
     private lateinit var mainFragmentBinding: MainFragmentBinding
 
     @Inject
-    lateinit var cat: Cat
+    lateinit var userRemoteDataSource: UserRemoteDataSource
 
     companion object {
         fun newInstance() = MainFragment()
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (activity?.application as MyApplication).applicationComponent.inject(this)
+//        Log.i("TAG", "onCreateView: " + userRemoteDataSource.getUserList())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        DaggerApplicationComponent.builder().build().inject(this)
         mainFragmentBinding = MainFragmentBinding.inflate(inflater, container, false)
-        Log.i("TAG", "onCreateView: $cat")
         return mainFragmentBinding.root
     }
 
