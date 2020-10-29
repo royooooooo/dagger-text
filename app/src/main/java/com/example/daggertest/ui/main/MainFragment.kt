@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.example.daggertest.databinding.MainFragmentBinding
+import com.example.daggertest.model.Cat
 import com.example.daggertest.ui.viewmodel.MainViewModel
 
 class MainFragment : Fragment() {
@@ -24,12 +26,9 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         mainFragmentBinding = MainFragmentBinding.inflate(inflater, container, false)
+        mainViewModel.userInfo.observe(viewLifecycleOwner,
+            Observer<Array<Cat>> { cat -> Log.i("TAG", "source : ${cat[0].type}") })
         return mainFragmentBinding.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.i("TAG", "onCreate: ${mainViewModel.getUser()}")
     }
 
 }

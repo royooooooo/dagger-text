@@ -1,7 +1,3 @@
 package com.example.daggertest.model
 
-import javax.inject.Inject
-
-class Cat @Inject constructor(private val dog: Dog) {
-    override fun toString() = "the cat ${dog.name}"
-}
+data class Cat(val used: Boolean, val source: String, val type: String)
